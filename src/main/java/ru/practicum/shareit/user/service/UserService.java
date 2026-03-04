@@ -1,7 +1,5 @@
 package ru.practicum.shareit.user.service;
 
-import java.util.List;
-
 import ru.practicum.shareit.user.dto.UserDto;
 
 public interface UserService {
