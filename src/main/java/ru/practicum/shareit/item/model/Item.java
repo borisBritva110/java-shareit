@@ -1,19 +1,41 @@
 package ru.practicum.shareit.item.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import ru.practicum.shareit.request.ItemRequest;
-import ru.practicum.shareit.user.model.User;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(of = "id")
+@Entity
+@Table(name = "items")
 public class Item {
-    private long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "description", length = 1000)
     private String description;
+
+    @Column(name = "available", nullable = false)
     private Boolean available;
-    private User owner;
-    private ItemRequest request;
+
+    @Column(name = "owner_id", nullable = false)
+    private Long ownerId;
+
+    @Column(name = "request_id")
+    private Long requestId;
 }
