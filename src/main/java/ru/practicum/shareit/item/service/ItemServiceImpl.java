@@ -1,6 +1,7 @@
 package ru.practicum.shareit.item.service;
 
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.BookingRepository;
@@ -37,6 +38,7 @@ public class ItemServiceImpl implements ItemService {
     private final CommentRepository commentRepository;
 
     @Override
+    @Transactional
     public ItemDto createItem(ItemDto itemDto, Long ownerId) {
         userService.getUser(ownerId);
 
@@ -50,6 +52,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    @Transactional
     public ItemDto updateItem(Long itemId, ItemDto itemDto, Long ownerId) {
         Item existingItem = itemRepository.findById(itemId)
             .orElseThrow(() -> new RuntimeException("Item not found"));
@@ -80,6 +83,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    @Transactional
     public List<ItemWithBookingsDto> getUserItems(Long ownerId) {
         userService.getUser(ownerId);
 
@@ -132,6 +136,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    @Transactional
     public CommentDto addComment(Long itemId, CommentCreateDto commentCreateDto, Long userId) {
         userService.getUser(userId);
         Item item = itemRepository.findById(itemId)
@@ -155,6 +160,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    @Transactional
     public ItemWithBookingsDto getItemWithBookingsAndComments(Long itemId, Long userId) {
         Item item = itemRepository.findById(itemId)
             .orElseThrow(() -> new RuntimeException("Item not found"));
