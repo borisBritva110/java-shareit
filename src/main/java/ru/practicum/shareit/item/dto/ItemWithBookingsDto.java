@@ -1,22 +1,20 @@
 package ru.practicum.shareit.item.dto;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.practicum.shareit.booking.dto.BookingDto;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ItemDto {
+public class ItemWithBookingsDto {
     private Long id;
-
     private String name;
-
     private String description;
-
-    @NotNull(message = "Available field is required")
     private Boolean available;
-
-    private Long requestId;
+    private BookingDto lastBooking;
+    private BookingDto nextBooking;
+    private List<CommentDto> comments;
 }
