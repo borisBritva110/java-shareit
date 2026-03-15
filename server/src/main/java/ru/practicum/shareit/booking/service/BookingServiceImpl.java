@@ -124,8 +124,6 @@ public class BookingServiceImpl implements BookingService {
     @Transactional(readOnly = true)
     public List<BookingResponseDto> getUserBookings(Long userId, BookingState state, Integer from, Integer size) {
         userService.getUser(userId);
-
-        // Validate pagination parameters
         if (from < 0) {
             throw new IllegalArgumentException("From parameter cannot be negative");
         }
@@ -134,7 +132,6 @@ public class BookingServiceImpl implements BookingService {
         }
 
         List<Booking> bookings = getBookingsByState(userId, state, false);
-        // Apply pagination (simple implementation without database-level pagination for now)
         return getBookingsResponse(bookings).stream()
             .skip(from)
             .limit(size)
@@ -145,8 +142,6 @@ public class BookingServiceImpl implements BookingService {
     @Transactional(readOnly = true)
     public List<BookingResponseDto> getOwnerBookings(Long ownerId, BookingState state, Integer from, Integer size) {
         userService.getUser(ownerId);
-
-        // Validate pagination parameters
         if (from < 0) {
             throw new IllegalArgumentException("From parameter cannot be negative");
         }
@@ -155,7 +150,6 @@ public class BookingServiceImpl implements BookingService {
         }
 
         List<Booking> bookings = getBookingsByState(ownerId, state, true);
-        // Apply pagination (simple implementation without database-level pagination for now)
         return getBookingsResponse(bookings).stream()
             .skip(from)
             .limit(size)

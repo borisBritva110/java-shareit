@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import ru.practicum.shareit.exception.EmailAlreadyExistsException;
 import ru.practicum.shareit.user.dto.UserDto;
+import ru.practicum.shareit.user.dto.UserUpdateDto;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.mapper.UserMapper;
 import ru.practicum.shareit.user.UserRepository;
@@ -29,21 +30,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserDto updateUser(Long userId, UserDto userDto) {
+    public UserDto updateUser(Long userId, UserUpdateDto userUpdateDto) {
         User existingUser = userRepository.findById(userId)
             .orElseThrow(() -> new RuntimeException("User not found"));
 
-        if (userDto.getEmail() != null &&
-            !userDto.getEmail().equals(existingUser.getEmail()) &&
-            userRepository.findByEmail(userDto.getEmail()).isPresent()) {
+        if (userUpdateDto.getEmail() != null &&
+            !userUpdateDto.getEmail().equals(existingUser.getEmail()) &&
+            userRepository.findByEmail(userUpdateDto.getEmail()).isPresent()) {
             throw new EmailAlreadyExistsException("Email already exists");
         }
 
-        if (userDto.getName() != null) {
-            existingUser.setName(userDto.getName());
+        if (userUpdateDto.getName() != null) {
+            existingUser.setName(userUpdateDto.getName());
         }
-        if (userDto.getEmail() != null) {
-            existingUser.setEmail(userDto.getEmail());
+        if (userUpdateDto.getEmail() != null) {
+            existingUser.setEmail(userUpdateDto.getEmail());
         }
 
         User updatedUser = userRepository.save(existingUser);

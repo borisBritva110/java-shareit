@@ -15,8 +15,8 @@ public class UserDto {
     private Long id;
     
     private String name;
-    
-    @NotBlank(message = "Email cannot be blank")
+
+    @NotBlank
     @Email(message = "Invalid email format")
     private String email;
 }
