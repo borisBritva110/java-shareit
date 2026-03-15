@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.client.UserClient;
 import ru.practicum.shareit.user.dto.UserDto;
+import ru.practicum.shareit.user.dto.UserUpdateDto;
 
 @RestController
 @AllArgsConstructor
@@ -25,7 +26,7 @@ public class UserController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Object> updateUser(@PathVariable long id, @RequestBody UserDto userUpdateDto) {
+    public ResponseEntity<Object> updateUser(@PathVariable long id, @Valid @RequestBody UserUpdateDto userUpdateDto) {
         return userClient.updateUser(id, userUpdateDto);
     }
 

@@ -1,6 +1,4 @@
-package ru.practicum
-.shareit.client;
-
+package ru.practicum.shareit.client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -10,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
 import ru.practicum.shareit.user.dto.UserDto;
+import ru.practicum.shareit.user.dto.UserUpdateDto;
 
 @Service
 public class UserClient extends BaseClient {
@@ -29,8 +28,8 @@ public class UserClient extends BaseClient {
         return post("", userDto);
     }
 
-    public ResponseEntity<Object> updateUser(Long userId, UserDto userDto) {
-        return patch("/" + userId, userDto);
+    public ResponseEntity<Object> updateUser(Long userId, UserUpdateDto userUpdateDto) {
+        return patch("/" + userId, userUpdateDto);
     }
 
     public ResponseEntity<Object> getUser(Long userId) {
