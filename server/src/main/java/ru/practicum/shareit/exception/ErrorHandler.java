@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ErrorHandler {
 
-    @ExceptionHandler(RuntimeException.class)
+    @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Map<String, String> handleNotFound(final RuntimeException e) {
+    public Map<String, String> handleNotFound(final NotFoundException e) {
         return Map.of("error", e.getMessage());
     }
 
-    @ExceptionHandler(IllegalArgumentException.class)
+    @ExceptionHandler({BadRequestException.class, ValidationException.class, IllegalArgumentException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Map<String, String> handleBadRequest(final IllegalArgumentException e) {
+    public Map<String, String> handleBadRequest(final RuntimeException e) {
         return Map.of("error", e.getMessage());
     }
 
@@ -30,27 +30,15 @@ public class ErrorHandler {
         return Map.of("error", "Validation failed: " + ex.getBindingResult().getAllErrors().get(0).getDefaultMessage());
     }
 
+    @ExceptionHandler({DuplicateEmailException.class, EmailAlreadyExistsException.class, DataIntegrityViolationException.class})
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public Map<String, String> handleConflict(final RuntimeException e) {
+        return Map.of("error", e.getMessage());
+    }
+
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Map<String, String> handleInternalServerError(final Exception e) {
         return Map.of("error", "Internal server error: " + e.getMessage());
-    }
-
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
-    public Map<String, String> handleDataIntegrityViolation(final DataIntegrityViolationException e) {
-        return Map.of("error", "Data integrity violation: " + e.getMessage());
-    }
-
-    @ExceptionHandler(EmailAlreadyExistsException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
-    public Map<String, String> handleEmailAlreadyExists(final EmailAlreadyExistsException e) {
-        return Map.of("error", e.getMessage());
-    }
-
-    @ExceptionHandler(BadRequestException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Map<String, String> handleBadRequest(final BadRequestException e) {
-        return Map.of("error", e.getMessage());
     }
 }

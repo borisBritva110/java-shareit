@@ -23,7 +23,7 @@ public class ItemRequestController {
     private final ItemRequestClient itemRequestClient;
 
     @PostMapping
-    public ResponseEntity<Object> createItemRequest(@RequestBody ItemRequestCreateDto itemRequestCreateDto,
+    public ResponseEntity<Object> createItemRequest(@Valid @RequestBody ItemRequestCreateDto itemRequestCreateDto,
                                                      @RequestHeader(USER_ID_HEADER) Long requestorId) {
         return itemRequestClient.createItemRequest(requestorId, itemRequestCreateDto);
     }

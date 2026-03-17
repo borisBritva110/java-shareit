@@ -2,6 +2,7 @@ package ru.practicum.shareit.item.controller;
 
 import java.util.List;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +22,7 @@ public class ItemController {
     private final ItemService itemService;
 
     @PostMapping
-    public ItemDto createItem(@RequestBody ItemDto itemDto,
+    public ItemDto createItem(@Valid @RequestBody ItemDto itemDto,
                               @RequestHeader(USER_ID_HEADER) Long ownerId) {
         return itemService.createItem(itemDto, ownerId);
     }
